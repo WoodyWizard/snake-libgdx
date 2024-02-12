@@ -18,16 +18,16 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (Gdx.input.isKeyPressed(Input.Keys.W))
+        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
             snake.setNewDirection(new int[]{0, -1});
             //camera.translate(0, camera_speed);
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
+        if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
             snake.setNewDirection(new int[]{0, 1});
             //camera.translate(0, -camera_speed);
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
             snake.setNewDirection(new int[]{-1, 0});
             //camera.translate(-camera_speed, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             snake.setNewDirection(new int[]{1, 0});
             //camera.translate(camera_speed, 0);
 

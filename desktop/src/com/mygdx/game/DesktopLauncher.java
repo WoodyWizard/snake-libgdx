@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGdxGame;
 
@@ -37,24 +38,37 @@ class MyGame extends ApplicationAdapter {
 	GameInputProcessor myInput;
 	World world;
 
+	int worldUnits = 20;
+
 	@Override
 	public void create() {
 		world = new World(30,30);
+		world.updateWorld();
 
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		camera.position.set(0,0,0);
+		camera.position.set(15,15,0);
+		camera.setToOrtho(true, 30, 30);
+		//camera.zoom = 0.8f;
 		camera.update();
 
 		myInput = new GameInputProcessor(camera, world.getSnake());
 		Gdx.input.setInputProcessor(myInput);
 
-		viewport = new FitViewport(30*20,30*20, camera);
+		viewport = new FitViewport(30, 30, camera);
 
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 
 		font = new BitmapFont();
 		font.setColor(1,1,1,1);
+
+
+		Timer.schedule(new Timer.Task() {
+			@Override
+			public void run() {
+				world.updateWorld();
+			}
+		}, 0.2f , 0.2f);
 	}
 
 	@Override
@@ -67,23 +81,35 @@ class MyGame extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);
+		//world.updateWorld();
+		int [][] renderedWorld = world.getWorld();
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 1); // Set your viewport background color here
-			shapeRenderer.rect(camera.position.x - viewport.getWorldWidth() / 2,
-				camera.position.y - viewport.getWorldHeight() / 2,
-				viewport.getWorldWidth(),
-				viewport.getWorldHeight());
+			shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 1);
 
+			for (int i = 0; i < renderedWorld.length; i++) {
+				for (int j = 0; j < renderedWorld[i].length; j++) {
+					if (renderedWorld[i][j] == 1) {
+						shapeRenderer.setColor(1f, 1f, 1f, 1);
+						shapeRenderer.rect(i, j, 20*worldUnits, 20*worldUnits);
+					}
+					if (renderedWorld[i][j] == -1) {
+						shapeRenderer.setColor(0.5f, 0.1f, 0.1f, 1);
+						shapeRenderer.rect(i, j, 20, 20);
+					}
+					if (renderedWorld[i][j] == 0) {
+						shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 1);
+						shapeRenderer.rect(i, j, 20, 20);
+					}
+				}
+			}
 			shapeRenderer.setColor(1,1,1,1);
-			shapeRenderer.rect(100, 10, 50, 50);
 		shapeRenderer.end();
 
 		batch.begin();
-			font.draw(batch, "Hello, LibGDX!", 0, 0); // Draw text at position (100, 100)
 		batch.end();
 	}
 
