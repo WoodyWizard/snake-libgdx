@@ -34,21 +34,25 @@ class MyGame extends ApplicationAdapter {
 
 	SpriteBatch batch;
 	BitmapFont font;
-
 	GameInputProcessor myInput;
+	World world;
 
 	@Override
 	public void create() {
+		world = new World(30,30);
+
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		camera.position.set(0,0,0);
 		camera.update();
-		myInput = new GameInputProcessor(camera);
-		//Gdx.input.setInputProcessor(myInput);
 
-		viewport = new FitViewport(500,500, camera);
+		myInput = new GameInputProcessor(camera, world.getSnake());
+		Gdx.input.setInputProcessor(myInput);
+
+		viewport = new FitViewport(30*20,30*20, camera);
 
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
+
 		font = new BitmapFont();
 		font.setColor(1,1,1,1);
 	}
@@ -60,8 +64,6 @@ class MyGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		myInput.keyDown(0);
-
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);

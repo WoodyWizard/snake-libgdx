@@ -8,22 +8,28 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 public class GameInputProcessor implements InputProcessor {
 
     private OrthographicCamera camera;
+    private Snake snake;
     private int camera_speed = 5;
 
-    public GameInputProcessor(OrthographicCamera camera) {
+    public GameInputProcessor(OrthographicCamera camera, Snake snake) {
         this.camera = camera;
+        this.snake = snake;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            camera.translate(0, camera_speed);
+            snake.setNewDirection(new int[]{0, -1});
+            //camera.translate(0, camera_speed);
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            camera.translate(0, -camera_speed);
+            snake.setNewDirection(new int[]{0, 1});
+            //camera.translate(0, -camera_speed);
         if (Gdx.input.isKeyPressed(Input.Keys.A))
-            camera.translate(-camera_speed, 0);
+            snake.setNewDirection(new int[]{-1, 0});
+            //camera.translate(-camera_speed, 0);
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            camera.translate(camera_speed, 0);
+            snake.setNewDirection(new int[]{1, 0});
+            //camera.translate(camera_speed, 0);
 
         return true;
     }
