@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.Random;
+
 public class World {
 
     private int[][] world;
@@ -22,21 +24,38 @@ public class World {
     }
 
     private int[][] handleSnake() {
+        int[] excl = new int[world.length*world[0].length];
         BodyPart[] body = snake.getBody();
+
         for (int i = 0; i < world.length; i++) {
             for (int j = 0; j < world[i].length; j++) {
-                if (world[i][j] != -1)
+                if (world[i][j] != -1 && world[i][j] != 999) {
                     world[i][j] = 0;
+                    excl[i*world[i].length + j] = 99;
+                }
             }
         }
+
         for (int i = 0; i < snake.getSize(); i++) {
             world[body[i].getX()][body[i].getY()] = 1;
+            excl[body[i].getX()*world[0].length + body[i].getY()] = 9;
+        }
+
+        Random p = new Random();
+        int pp = p.nextInt(10);
+        if (pp == 5) {
+            int position = p.nextInt(excl.length);
+            while (excl[position] != 99) {
+                position = p.nextInt(excl.length);
+            }
+            this.world[position / world[0].length][position % world[0].length] = 999;
         }
         return this.world;
     }
 
     public void updateWorld(){
-        snake.moveSnake();
+        int [] r = snake.getDirection();
+        snake.moveSnake(this.world);
         handleSnake();
     }
 

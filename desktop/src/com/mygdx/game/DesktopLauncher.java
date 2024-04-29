@@ -104,7 +104,10 @@ class MyGame extends ApplicationAdapter {
 						shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 1);
 						shapeRenderer.rect(i, j, 20, 20);
 					}
-				}
+					if (renderedWorld[i][j] == 999) {
+						shapeRenderer.setColor(1.0f, 0.5f, 0.1f, 1);}
+						shapeRenderer.rect(i, j, 20, 20);
+					}
 			}
 			shapeRenderer.setColor(1,1,1,1);
 		shapeRenderer.end();

@@ -18,18 +18,37 @@ public class GameInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP))
-            snake.setNewDirection(new int[]{0, -1});
+        int [] l = snake.getDirection().clone();
+
+        int [] delta = new int[]{0,0};
+
+        if ((Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) &&
+                l[1] == 0
+        )
+            delta[1] = -1;
             //camera.translate(0, camera_speed);
-        if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            snake.setNewDirection(new int[]{0, 1});
+        if ((Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) &&
+                l[1] == 0
+        )
+            delta[1] = 1;
             //camera.translate(0, -camera_speed);
-        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            snake.setNewDirection(new int[]{-1, 0});
+        if ((Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) &&
+                l[0] == 0
+        )
+            delta[0] = -1;
             //camera.translate(-camera_speed, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            snake.setNewDirection(new int[]{1, 0});
+        if ((Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) &&
+                l[0] == 0
+        )
+            delta[0] = 1;
             //camera.translate(camera_speed, 0);
+
+        l[0] = l[0] + delta[0];
+        l[1] = l[1] + delta[1];
+
+        if (l[0] != 0 && l[1] != 0) {
+            snake.setNewDirection(delta);
+        }
 
         return true;
     }
