@@ -23,7 +23,7 @@ public class World {
         return snake;
     }
 
-    private int[][] handleSnake() {
+    private int[][] _update() {
         int[] excl = new int[world.length*world[0].length];
         BodyPart[] body = snake.getBody();
 
@@ -56,7 +56,7 @@ public class World {
     public void updateWorld(){
         int [] r = snake.getDirection();
         snake.moveSnake(this.world);
-        handleSnake();
+        _update();
     }
 
     public int[][] getWorld(){
