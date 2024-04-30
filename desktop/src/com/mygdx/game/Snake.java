@@ -16,9 +16,9 @@ public class Snake {
         return this.size;
     }
 
-    public Snake() {
+    public Snake(int max_size) {
         this.head = new BodyPart(null,11,5,new int[]{1,0});
-        this.body = new BodyPart[100];
+        this.body = new BodyPart[max_size];
         this.body[0] = this.head;
         this.body[1] = new BodyPart(this.body[0],10,5, this.body[0].getDirection());
         this.body[2] = new BodyPart(this.body[1],9,5, this.body[1].getDirection());

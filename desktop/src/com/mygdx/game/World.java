@@ -16,7 +16,7 @@ public class World {
                 }
             }
         }
-        snake = new Snake();
+        snake = new Snake(width*height);
     }
 
     public Snake getSnake(){
