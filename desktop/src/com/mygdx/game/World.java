@@ -45,7 +45,7 @@ public class World {
         int pp = p.nextInt(10);
         if (pp == 5) {
             int position = p.nextInt(excl.length);
-            while (excl[position] != 99) {
+            while (excl[position] != 99) { // bad practice
                 position = p.nextInt(excl.length);
             }
             this.world[position / world[0].length][position % world[0].length] = 999;
